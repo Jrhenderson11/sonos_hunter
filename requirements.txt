@@ -1,0 +1,9 @@
+argparse
+requests
+readline
+netifaces
+ipaddress
+soco
+gtts
+colorama
+scapy
