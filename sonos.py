@@ -274,6 +274,9 @@ if __name__ == '__main__':
     parser.add_argument('-t','--target', help='ip to connect to (skip scan phase)')
     parser.add_argument('-f', '--file', help='file to play on device')
 
+    if os.geteuid() != 0:
+        exit("Needs to be run as root to do low level networking stuff")
+
     args = parser.parse_args()
 
     sono_hunter = SonoHunter()
