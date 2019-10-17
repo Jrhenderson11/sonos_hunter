@@ -4,6 +4,7 @@ import sys
 import os.path
 import _thread
 import argparse
+import platform
 import requests
 import readline
 import netifaces
@@ -143,6 +144,9 @@ class SonoHunter:
         print (" Hunting for devices ...\n")
 
         interface = "wlan0"
+        if platform.system() == "Darwin":
+            interface = "en0"
+
         ifaddrs = netifaces.ifaddresses(interface)[netifaces.AF_INET][0]
         ips = str(ipaddress.IPv4Interface(ifaddrs['addr']+"/"+ifaddrs["netmask"]).network)
 
