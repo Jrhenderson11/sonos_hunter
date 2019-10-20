@@ -12,5 +12,4 @@ ENV HOME=${HOME}
 
 RUN pip install -r requirements.txt
 
-ENTRYPOINT [ "sonos.py" ]
-CMD [ "python" ]
+CMD [ "python", "sonos.py"]
