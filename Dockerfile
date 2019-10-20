@@ -3,7 +3,7 @@ FROM python:3
 ARG arg_HOME=/opt/sonos-huter
 ENV HOME=$arg_HOME
 
-RUN mkdir ${HOME}
+RUN mkdir -p ${HOME}
 COPY sonos.py ${HOME}/sonos.py
 COPY requirements.txt ${HOME}/requirements.txt
 
