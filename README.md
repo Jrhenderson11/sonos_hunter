@@ -5,11 +5,6 @@ Connect and play with sonos speakers
 
 When starting with no arguments the program will start by scanning for available devices
 
-<<<<<<< HEAD
-If you specify a device ip with -t or --target it will skip scanning and connect straight away
-
-If you specify a target you can also specify a file to play immediately with -f as well
-=======
 if you specify a device ip with **-t** or **--target** it will skip scanning and connect straight away
 
 if you specify a target you can also specify a file to play immediately with **-f** as well
@@ -30,7 +25,6 @@ optional arguments:
   -f, --file FILE  file to play on device
 
 ```
->>>>>>> master
 
 ## Commands
 
