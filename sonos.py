@@ -71,6 +71,7 @@ class SonoHunter:
         self.connected_device = None
         self.translator = TextToSpeech()
         self.interface = interface
+        self.scan = True
 
     def print_banner(self):
         print_cyan(self.banner)
@@ -250,7 +251,8 @@ class SonoHunter:
         try:
             self.print_banner()
 
-            if commands is None or commands == []:
+            if self.scan == True and (commands is None or commands == []):
+                print(self.scan)
                 self.print_active_devices()
             else:
                 for comm in commands:
@@ -271,8 +273,9 @@ class SonoHunter:
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('-i', '--interface', help='interface to use for scanning')
+    parser.add_argument('-i', '--interface', help='interface to use for scanning', default='wlan0')
     parser.add_argument('-t','--target', help='ip to connect to (skip scan phase)')
+    parser.add_argument('--skip_scanning', action='store_true', help='don\'t scan')
     parser.add_argument('-f', '--file', help='file to play on device')
 
 
@@ -295,5 +298,7 @@ if __name__ == '__main__':
     elif args.file:
         print('Cannot specify file without target device to play on')
         exit(0)
+    elif args.skip_scanning:
+        sono_hunter.scan = False
 
     sono_hunter.command_loop(commands)
