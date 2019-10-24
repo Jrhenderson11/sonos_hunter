@@ -1,10 +1,9 @@
 # sonos_hunter
 Connect and play with sonos speakers
 
-
 ## Starting up
 
-when starting with no arguments the program will start by scanning for available devices
+When starting with no arguments the program will start by scanning for available devices
 
 if you specify a device ip with **-t** or **--target** it will skip scanning and connect straight away
 
@@ -29,18 +28,25 @@ optional arguments:
 
 ## Commands
 
-help: displays a help menu
+<kbd>help</kbd>: displays a help menu
 
-scan: scans for devices
+<kbd>scan</kbd>: scans for devices
 
-volume: change volume of connected device (0 - 100)
+<kbd>volume</kbd>: change volume of connected device (0 - 100)
 
-play: play a given audio file
+<kbd>play</kbd>: play a given audio file
 
-say: convert text to speech and play on speaker, uses google api so need to be online
+<kbd>say</kbd>: convert text to speech and play on speaker, uses google api so need to be online
 
-connect: connect to a device, can either specify using a speaker name or ip address
+<kbd>connect</kbd>: connect to a device, can either specify using a speaker name or ip address
 
-stop, quit: quit cli
+<kbd>stop</kbd>, <kbd>quit</kbd>: quit cli
 
-
+## Running With Docker :whale:
+To run the following application as a docker container follow the following steps to access the cli.
+1. ```docker build -t sonos-hunter .```
+2. ```docker run sonos-hunter```
+   - Alternatively you can run the container in detached mode (run container in background) 
+   - ```docker run -d sonos-hunter```
+  
+*I will eventually just push something to dockerhub  that can be pulled and run*
