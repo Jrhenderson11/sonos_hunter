@@ -67,9 +67,10 @@ class SonoHunter:
 
     banner = '''--- SonoHunter ---\n'''
 
-    def __init__(self):
+    def __init__(self, interface='wlan0'):
         self.connected_device = None
         self.translator = TextToSpeech()
+        self.interface = interface
 
     def print_banner(self):
         print_cyan(self.banner)
@@ -79,7 +80,7 @@ class SonoHunter:
         print("\n - " + "\n - ".join(self.logic.keys()) + "\n")
 
     def get_wlan_ip(self):
-        return netifaces.ifaddresses('wlan0')[netifaces.AF_INET][0]['addr']
+        return netifaces.ifaddresses(self.interface)[netifaces.AF_INET][0]['addr']
 
     def connect(self, address):
         try:
@@ -140,16 +141,15 @@ class SonoHunter:
 
     def scan_active_devices(self):
 
-        print (" Hunting for devices ...\n")
+        print(" Hunting for devices ...\n")
 
-        interface = "wlan0"
-        ifaddrs = netifaces.ifaddresses(interface)[netifaces.AF_INET][0]
+        ifaddrs = netifaces.ifaddresses(self.interface)[netifaces.AF_INET][0]
         ips = str(ipaddress.IPv4Interface(ifaddrs['addr']+"/"+ifaddrs["netmask"]).network)
 
         start_time = datetime.now()
 
         conf.verb = 0
-        ans, unans = srp(Ether(dst="ff:ff:ff:ff:ff:ff")/ARP(pdst=ips), timeout=2, iface=interface, inter=0.01)
+        ans, unans = srp(Ether(dst="ff:ff:ff:ff:ff:ff")/ARP(pdst=ips), timeout=2, iface=self.interface, inter=0.01)
 
         sonos_macs = ["00:0E:58", "5C:AA:FD", "78:28:CA", "94:9F:3E", "B8:E9:37"]
 
@@ -271,15 +271,20 @@ class SonoHunter:
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
+    parser.add_argument('-i', '--interface', help='interface to use for scanning')
     parser.add_argument('-t','--target', help='ip to connect to (skip scan phase)')
     parser.add_argument('-f', '--file', help='file to play on device')
+
 
     if os.geteuid() != 0:
         exit("Needs to be run as root to do low level networking stuff")
 
     args = parser.parse_args()
 
-    sono_hunter = SonoHunter()
+    if args.interface is not None and args.interface not in netifaces.interfaces():
+        exit("Specified interface {} not found".format(args.interface))
+
+    sono_hunter = SonoHunter(interface=args.interface)
 
     commands = []
 
